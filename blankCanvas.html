@@ -22,6 +22,10 @@
         var playerYpos = 470;
         var playerXspeed = 5;
         var playerYspeed = 5;
+
+        var fallrate = 0.4;
+        var jumping = -8;
+
         const PLAYER_SIZE = 40;
         const PLAYER_HEIGHT = 50;
         const PLAYER_WIDTH = 50;
@@ -37,7 +41,7 @@
         var antiFrameRate = 0.1;
 
         var background1 = new Image();
-        background1.src = "background.png";
+        background1.src = "Colosseum_Arena.png";
 
         var aKeyPressed = false;
         var dKeyPressed = false;
@@ -54,7 +58,7 @@
         }
 
         function drawImg(src,x,y,w,h) {
-            canvasContext.drawImage(src,x,y,w,h)
+            canvasContext.drawImage(src,x,y,w,h);
         }
 
 
@@ -99,20 +103,31 @@
             if (dKeyPressed && playerXpos < canvas.width * .97) {
                 playerXpos += playerXspeed;
             }
-
             if (aKeyPressed && playerXpos > canvas.width * .001) {
                 playerXpos -= playerXspeed;
             }
 
-            if (spaceKeyPressed && playerYpos >= canvas.height * .905) {
-                playerYspeed = -25;
+            playerYpos += playerYspeed;
+
+            playerYspeed += fallrate;
+
+            if (spaceKeyPressed) {
+                playerYspeed = jumping;
+                jumping = 1;
             }
 
-            playerYpos += playerYspeed;
-            playerYspeed += 1;
+            if(playerYpos > canvas.height*.75){
+                jumping = -8;
+            }
 
-            if (playerYpos + PLAYER_SIZE >= canvas.height) {
-                playerYpos = canvas.height - PLAYER_SIZE;
+            if (playerYpos + PLAYER_SIZE >= canvas.height*.85) {
+                playerYpos = canvas.height *.85 - PLAYER_SIZE;
+                playerYspeed = -.1;
+            }
+
+            if (playerYpos <= 0) {
+                playerYpos= 0;
+                playerYspeed = fallrate * 2;
             }
 
         }
@@ -140,7 +155,7 @@
 
         for (i = 0; i < PLAYER_SPRITES; i++) {
             playerSpriteArray[i] = new Array(2);
-            playerSpriteArray[i][0] = PLAYEDFR_WIDTHS * (i % 4);
+            playerSpriteArray[i][0] = PLAYER_WIDTH * (i % 4);
             if (i != 0 && i % 3 == 0) {
                 playerSpriteSheetCols++;
             }
