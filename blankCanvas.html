@@ -195,5 +195,70 @@
         }
 
         
+        var enemyCounter = 0;
+        var setCount = 0
+
+        function makeEnemy() { //enemies and enemy placement
+            var ENEMY_SIZE = 150;
+            var gap = Math.floor(Math.random() * (canvas.height * 0.16)) + canvas.height * 0.16;
+            var enemyYpos = 0
+
+            if (enemyCounter % 2 == 0) {
+                enemyYpos = canvas.height / 2 - gap;
+            } else {
+                enemyYpos = canvas.height / 2 + gap;
+                setCount++;
+            }
+
+            var enemyXpos = canvas.width + setCount * (ENEMY_SIZE * 2);
+            var eXspeed = 8;
+            var eYspeed = 5;
+
+            enemyCounter++;
+
+            //enemy vars
+            var enemy = {
+                enemyXpos: enemyXpos,
+                enemyYpos: enemyYpos,
+                ENEMY_SIZE: ENEMY_SIZE,
+                enemyXspeed: eXspeed,
+                enemyYspeed: eYspeed
+
+            }
+            enemies.push(enemy);
+
+        } //end func
+
+        function drawEnemy() { //draw enemy
+            enemies.forEach(function(e, i, array) {
+                colorRect(e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE, 'lime'); //color of enemies
+            console.log('why')
+            })
+        } //end func
+
+        function enemyMove() { //enemies go back to right side after touching left border
+            enemies.forEach(function(e, i, array) {
+                e.enemyXpos -= e.enemyXspeed;
+                if (e.enemyXpos < 0 - e.ENEMY_SIZE) {
+                    score++;
+
+
+                    e.enemyXpos = canvas.width - e.ENEMY_SIZE;
+                    e.eXspeed = Math.floor(Math.random(i) * (15 - 7) + 5);
+                    e.eYpos = Math.floor(Math.random() * (canvas.height - 0) + 5)
+    
+                }
+
+                if (e.enemyXpos < playerXpos + PLAYER_SIZE &&
+                    e.enemyXpos + e.ENEMY_SIZE > playerXpos &&
+                    e.enemyYpos < playerYpos + PLAYER_SIZE &&
+                    e.enemyYpos + e.ENEMY_SIZE > playerYpos //when player hits enemy
+                ) {
+                    console.log('hit')
+                    gameRun = false;
+                }
+            })
+        } //end func
+
     </script>
 </body>
