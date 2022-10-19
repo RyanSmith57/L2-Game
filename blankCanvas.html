@@ -20,7 +20,7 @@
         var playerYsource = 0;
         var playerXpos = 850;
         var playerYpos = 470;
-        var playerXspeed = 5;
+        var playerXspeed = 10;
         var playerYspeed = 5;
 
         var fallrate = 0.4;
@@ -57,12 +57,12 @@
             PlayerMove();
         }
 
-        function drawImg(src,x,y,w,h) {
+        function drawImg(src,x,y,w,h) { //function
             canvasContext.drawImage(src,x,y,w,h);
         }
 
 
-        function colorRect(x, y, w, h, c) {
+        function colorRect(x, y, w, h, c) { //function
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
         }
@@ -73,7 +73,7 @@
 
 
 
-        function keyPressed(evt) {
+        function keyPressed(evt) { //function
             console.log(evt.keyCode)
             if (evt.keyCode == D_KEY) {
                 dKeyPressed = true;
@@ -86,7 +86,7 @@
             }
         }
 
-        function keyReleased(evt) {
+        function keyReleased(evt) { //function
             console.log(evt.keyCode)
             if (evt.keyCode == D_KEY) {
                 dKeyPressed = false;
@@ -99,11 +99,11 @@
             }
         }
 
-        function PlayerMove() {
-            if (dKeyPressed && playerXpos < canvas.width * .97) {
+        function PlayerMove() { //function
+            if (dKeyPressed && playerXpos < canvas.width * .96) {
                 playerXpos += playerXspeed;
             }
-            if (aKeyPressed && playerXpos > canvas.width * .001) {
+            if (aKeyPressed && playerXpos > canvas.width * .000001) {
                 playerXpos -= playerXspeed;
             }
 
@@ -111,34 +111,49 @@
 
             playerYspeed += fallrate;
 
-            if (spaceKeyPressed) {
-                playerYspeed = jumping;
-                jumping = 1;
+            if (spaceKeyPressed && playerYpos > canvas.height * .8) {
+                playerYspeed = -15;
             }
 
-            if(playerYpos > canvas.height*.75){
-                jumping = -8;
-            }
-
-            if (playerYpos + PLAYER_SIZE >= canvas.height*.85) {
-                playerYpos = canvas.height *.85 - PLAYER_SIZE;
-                playerYspeed = -.1;
-            }
+            playerYpos += playerYspeed;
+            playerYspeed += .5;
 
             if (playerYpos <= 0) {
-                playerYpos= 0;
-                playerYspeed = fallrate * 2;
+            playerYpos = 0;
+            playerYspeed = 0.5;
             }
 
-        }
+            if (playerYpos + PLAYER_SIZE*3.75 >= canvas.height) {
+            playerYpos = canvas.height - PLAYER_SIZE*3.75;  
+            }
+            // if (spaceKeyPressed && playerYpos > canvas.height * .75) {
+            //     playerYspeed = jumping;
+            //     jumping = 1;
+            // }
 
-        function playerMove() {
+            // if(playerYpos > canvas.height*.5){
+            //     jumping = -8;
+            // }
+
+            // if (playerYpos + PLAYER_SIZE >= canvas.height*.85) {
+            //     playerYpos = canvas.height *.85 - PLAYER_SIZE;
+            //     playerYspeed = -.1;
+            // }
+
+            // if (playerYpos <= 0) {
+            //     playerYpos= 0;
+            //     playerYspeed = fallrate * 2;
+            // }
+
+        }
+        
+
+        function playerMove() { //function
             playerXsource = playerSpriteArray[Math.floor(playerSpriteNum)][0];
             playerYsource = playerSpriteArray[Math.floor(playerSpriteNum)][1];
 
             if (aKeyPressed) {
                 playerSpriteNum += antiFrameRate;
-                playerXpos -= playerXspeed;
                 if (playerSpriteNum < 0 || playerSpriteNum > 4) {
                     playerSpriteNum = 0;
                 }
@@ -146,7 +161,6 @@
 
             if (dKeyPressed) {
                 playerSpriteNum += antiFrameRate;
-                playerXpos += playerXspeed;
                 if (playerSpriteNum > 5 || playerSpriteNum < 8) {
                     playerSpriteNum = 5;
                 }
@@ -163,7 +177,7 @@
             console.log(playerSpriteArray[i]);
         }
 
-        function playerAnimation() {
+        function playerAnimation() { //function
             playerSpriteNum += antiFrameRate;
             if (playerSpriteNum > 3) {
                 playerSpriteNum = 5;
@@ -173,11 +187,13 @@
             }
         }
 
-        function loadImgAssets() {
+        function loadImgAssets() { //function
             imgs = {};
             imgs.player = new Image();
             imgs.player.src = "images.png";
             return imgs;
         }
+
+        
     </script>
 </body>
