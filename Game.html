@@ -40,12 +40,12 @@
         // var enemies = [];
         // var enemy;
         var enemyXpos = 500;
-        var enemyYpos = 517;
+        var enemyYpos = 595;
         var ENEMY_SIZE = 50;
         var enemyXspeed = 10;
 
         var background1 = new Image();
-        background1.src = "pixelart.png";
+        background1.src = "pixelart2.png";
 
         var aKeyPressed = false;
         var dKeyPressed = false;
@@ -105,10 +105,10 @@
 
         function PlayerMove() { //function
             if (dKeyPressed && playerXpos < canvas.width * .96) {
-                playerXpos += playerXspeed;
+                playerXpos += playerXspeed; //border
             }
             if (aKeyPressed && playerXpos > canvas.width * .000001) {
-                playerXpos -= playerXspeed;
+                playerXpos -= playerXspeed; //border
             }
             playerYpos += playerYspeed;
             playerYspeed += fallrate;
@@ -124,10 +124,11 @@
             playerYspeed = 0.5;
             }
 
-            if (playerYpos + PLAYER_SIZE*5.55 >= canvas.height) {
-            playerYpos = canvas.height - PLAYER_SIZE*5.55;  
+            if (playerYpos + PLAYER_SIZE*3.65 >= canvas.height) {
+            playerYpos = canvas.height - PLAYER_SIZE*3.65;  //3.75
             }
-            // if (spaceKeyPressed && playerYpos > canvas.height * .75) {
+
+            // if (spaceKeyPressed && playerYpos > canvas.height * 3.75) {
             //     playerYspeed = jumping;
             //     jumping = 1;
             // }
