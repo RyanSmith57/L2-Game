@@ -16,7 +16,7 @@
 
         var playerXsource = 0;
         var playerYsource = 0;
-        var playerXpos = 850;
+        var playerXpos = 150;
         var playerYpos = 470;
         var playerXspeed = 10;
         var playerYspeed = 5;
@@ -39,13 +39,24 @@
         var antiFrameRate = 0.1;
         // var enemies = [];
         // var enemy;
-        var enemyXpos = 500;
-        var enemyYpos = 517;
-        var ENEMY_SIZE = 50;
+        var enemyXpos = 1300;
+        var enemyYpos = 510;
+        var ENEMY_SIZE = 150;
         var enemyXspeed = 10;
+        
+        var enemy2Xpos = 950;
+        var enemy2Ypos = 355;
+        var ENEMY2_WIDTH = 500;
+        var ENEMY2_HEIGHT = 330;
 
         var background1 = new Image();
-        background1.src = "pixelart.png";
+        background1.src = "pixelart3.png";
+
+        var enemy2 = new Image();
+        enemy2.src = "dedede3.png";
+
+        var enemy = new Image();
+        enemy.src = "spiky ball.png";
 
         var aKeyPressed = false;
         var dKeyPressed = false;
@@ -53,7 +64,8 @@
 
         function mainloop() {
             drawImg(background1, 0, 0, canvas.width, canvas.height);
-            colorRect(enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE, 'gold');
+            drawImg(enemy, enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE);
+            drawImg(enemy2, enemy2Xpos, enemy2Ypos, ENEMY2_WIDTH, ENEMY2_HEIGHT);
             // colorRect(0, 0, canvas.width, canvas.height, 'lightblue'); // stuff
             drawSprite(imageAssets.player, playerXsource, playerYsource, PLAYER_WIDTH, PLAYER_HEIGHT, playerXpos,
                 playerYpos, PLAYER_WIDTH, PLAYER_HEIGHT); //draws Player Image
@@ -105,10 +117,10 @@
 
         function PlayerMove() { //function
             if (dKeyPressed && playerXpos < canvas.width * .96) {
-                playerXpos += playerXspeed;
+                playerXpos += playerXspeed; //border
             }
             if (aKeyPressed && playerXpos > canvas.width * .000001) {
-                playerXpos -= playerXspeed;
+                playerXpos -= playerXspeed; //border
             }
             playerYpos += playerYspeed;
             playerYspeed += fallrate;
@@ -124,28 +136,9 @@
             playerYspeed = 0.5;
             }
 
-            if (playerYpos + PLAYER_SIZE*5.55 >= canvas.height) {
-            playerYpos = canvas.height - PLAYER_SIZE*5.55;  
+            if (playerYpos + PLAYER_SIZE*3.65 >= canvas.height) {
+            playerYpos = canvas.height - PLAYER_SIZE*3.65;  //3.75
             }
-            // if (spaceKeyPressed && playerYpos > canvas.height * .75) {
-            //     playerYspeed = jumping;
-            //     jumping = 1;
-            // }
-
-            // if(playerYpos > canvas.height*.5){
-            //     jumping = -8;
-            // }
-
-            // if (playerYpos + PLAYER_SIZE >= canvas.height*.85) {
-            //     playerYpos = canvas.height *.85 - PLAYER_SIZE;
-            //     playerYspeed = -.1;
-            // }
-
-            // if (playerYpos <= 0) {
-            //     playerYpos= 0;
-            //     playerYspeed = fallrate * 2;
-            // }
-
         }
 
 
@@ -191,71 +184,22 @@
         function loadImgAssets() { //function
             imgs = {};
             imgs.player = new Image();
-            imgs.player.src = "images.png";
+            imgs.player.src = "dedede.png";
             return imgs;
         }
 
         
         function enemyMove(){
-           if (enemyXpos > canvas.width * 0.00000009) {
+          
             enemyXpos -= enemyXspeed;
-           }
            
-            // else (enemyXpos < canvas.width * 0.00000009) {
-            // enemyXpos += enemyXspeed
-            // }
 
-    
-        }
-        function makeEnemy() { //enemies and enemy placement
-            var ENEMY_SIZE = 150;
-            var gap = Math.floor(Math.random() * (canvas.height * 0.16)) + canvas.height * 0.16;
-            var enemyYpos = 0
+           if (enemyXpos < canvas.width * -0.1) {
+            enemyXpos = canvas.width * 0.8;
+           }
 
-            if (enemyCounter % 2 == 0) {
-                enemyYpos = canvas.height / 2 - gap;
-            } else {
-                enemyYpos = canvas.height / 2 + gap;
-                setCount++;
-            }
+           
 
-            var enemyXpos = canvas.width + setCount * (ENEMY_SIZE * 2);
-            var eXspeed = 8;
-            var eYspeed = 5;
-
-            enemyCounter++;
-
-            //enemy vars
-            var enemy = {
-                enemyXpos: enemyXpos,
-                enemyYpos: enemyYpos,
-                ENEMY_SIZE: ENEMY_SIZE,
-                enemyXspeed: eXspeed,
-                enemyYspeed: eYspeed
-
-            }
-            enemies.push(enemy);
-
-        } //end func
-
-        function drawEnemy() { //draw enemy
-            enemies.forEach(function(e, i, array) {
-                drawImg(enemy1, e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE); //color of enemies
-            console.log('why')
-            })
-        } //end func
-
-        
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             // enemies.forEach(function(e, i, array) {
             //     e.enemyXpos -= e.enemyXspeed;
             //    if (e.enemyXpos < 0 - e.ENEMY_SIZE) {
@@ -277,7 +221,51 @@
             //         gameRun = false;
             //     }
             // })
-        //end func
+           
+            // else (enemyXpos < canvas.width * 0.00000009) {
+            // enemyXpos += enemyXspeed
+            // }
+
+    
+        }
+        function makeEnemy() { //enemies and enemy placement
+            var ENEMY_SIZE = 150;
+            var gap = Math.floor(Math.random() * (canvas.height * 0.16)) + canvas.height * 0.16;
+            var enemyYpos = 0
+
+            // if (enemyCounter % 2 == 0) {
+            //     enemyYpos = canvas.height / 2 - gap;
+            // } else {
+            //     enemyYpos = canvas.height / 2 + gap;
+            //     setCount++;
+            // }
+
+            // var enemyXpos = canvas.width + setCount * (ENEMY_SIZE * 2);
+            // var eXspeed = 8;
+            // var eYspeed = 5;
+
+            // enemyCounter++;
+
+            //enemy vars
+            // var enemy = {
+            //     enemyXpos: enemyXpos,
+            //     enemyYpos: enemyYpos,
+            //     ENEMY_SIZE: ENEMY_SIZE,
+            //     enemyXspeed: eXspeed,
+            //     enemyYspeed: eYspeed
+
+            // }
+            // enemies.push(enemy);
+
+        } //end func\
+
+        function drawEnemy() { //draw enemy
+            enemies.forEach(function(e, i, array) {
+                drawImg(enemy1, e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE);
+            })
+        } //end func
+                                
+     
 
     </script>
 </body>
