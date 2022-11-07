@@ -25,7 +25,7 @@
         var jumping = -8;
 
         const PLAYER_SIZE = 40;
-        const PLAYER_HEIGHT = 500;
+        const PLAYER_HEIGHT = 200;
         const PLAYER_WIDTH = 200;
         const D_KEY = 68;
         const A_KEY = 65;
@@ -125,7 +125,7 @@
             }
             playerYpos += playerYspeed;
             playerYspeed += fallrate;
-            if (spaceKeyPressed && playerYpos > canvas.height * .8) {
+            if (spaceKeyPressed && playerYpos > canvas.height * .65) {
                 playerYspeed = -15;
             }
 
@@ -137,8 +137,8 @@
             playerYspeed = 0.5;
             }
 
-            if (playerYpos + PLAYER_SIZE*3.65 >= canvas.height) {
-            playerYpos = canvas.height - PLAYER_SIZE*3.65;  //3.75
+            if (playerYpos + PLAYER_SIZE* 6.3 >= canvas.height) {
+            playerYpos = canvas.height - PLAYER_SIZE* 6.3;  //3.75
             }
         }
 
@@ -149,17 +149,20 @@
 
             if (aKeyPressed) {
                 playerSpriteNum += antiFrameRate;
-                if (playerSpriteNum < 0 || playerSpriteNum > 4) {
+                if (playerSpriteNum < 0 || playerSpriteNum > 3) {
                     playerSpriteNum = 0;
                 }
             }
 
             if (dKeyPressed) {
                 playerSpriteNum += antiFrameRate;
-                if (playerSpriteNum > 5 || playerSpriteNum < 8) {
-                    playerSpriteNum = 5;
+                if (playerSpriteNum > 3 || playerSpriteNum < -3) {
+                    playerSpriteNum = 0;
                 }
             }
+            // if (playerYpos < canvas.height - PLAYER_HEIGHT){
+
+            // }
         }
 
         for (i = 0; i < PLAYER_SPRITES; i++) {
@@ -172,20 +175,20 @@
             console.log(playerSpriteArray[i]);
         }
 
-        function playerAnimation() { //function
-            playerSpriteNum += antiFrameRate;
-            if (playerSpriteNum > 3) {
-                playerSpriteNum = 5;
-            }
-            if (playerSpriteNum > 3) {
-                playerSpriteNum = 5;
-            }
-        }
+        // function playerAnimation() { //function
+        //     playerSpriteNum += antiFrameRate;
+        //     if (playerSpriteNum > 3) {
+        //         playerSpriteNum = 5;
+        //     }
+        //     if (playerSpriteNum > 3) {
+        //         playerSpriteNum = 5;
+        //     }
+        // }
 
         function loadImgAssets() { //function
             imgs = {};
             imgs.player = new Image();
-            imgs.player.src = "kirbywalking.png";
+            imgs.player.src = "kirbywalking2.png";
             return imgs;
         }
 
@@ -198,6 +201,19 @@
            if (enemyXpos < canvas.width * -0.1) {
             enemyXpos = canvas.width * 0.8;
            }
+
+        //    if (enemyXpos < playerXpos + PLAYER_SIZE &&
+        //    enemyXpos + ENEMY_SIZE > playerXpos &&
+        //    enemyYpos < playerYpos + PLAYER_SIZE &&
+        //    enemyYpos + ENEMY_SIZE > playerYpos) {
+            
+        //    }
+        //    if (enemy2Xpos < playerXpos + PLAYER_SIZE &&
+        //    enemy2Xpos + ENEMY2_WIDTH > playerXpos &&
+        //    enemy2Ypos < playerYpos + PLAYER_SIZE &&
+        //    enemy2Ypos + ENEMY2_HEIGHT > playerYpos) {
+        //     enemy2Xpos = playerXpos
+        //    }
 
 
             // enemies.forEach(function(e, i, array) {
