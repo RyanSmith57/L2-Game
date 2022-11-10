@@ -16,7 +16,7 @@
 
         var userName = '';
         while (userName == '' || userName == null) {
-            userName = prompt('whats your name?', 'RYAN') //insert name
+            userName = prompt('whats your name?', 'Ryan') //insert name
         }
 
         var playerXsource = 0;
@@ -42,11 +42,12 @@
         var playerSpriteNum = 0;
         var playerSpriteSheetCols = 0;
         var antiFrameRate = 0.1;
-        // var enemies = [];
-        // var enemy;
+
         var enemyXpos = 1200;
         var enemyYpos = 510;
-        var ENEMY_SIZE = 150;
+        var ENEMY_SIZE = 250;
+        var ENEMY_WIDTH = 10;
+        var ENEMY_HEIGHT = 10;
         var enemyXspeed = 10 ;
         
         var enemy2Xpos = 950;
@@ -58,19 +59,19 @@
 
 
         var background1 = new Image();
-        background1.src = "pixelart3.png";
+        background1.src = "Images/pixelart3.png";
 
         var enemy2 = new Image();
-        enemy2.src = "dedede3.png";
+        enemy2.src = "Images/dedede3.png";
 
         var enemy = new Image();
-        enemy.src = "spiky ball.png";
+        enemy.src = "Images/spiky ball.png";
 
         var gameover = new Image();
-        gameover.src = "waltfrown.png";
+        gameover.src = "Images/waltfrown.png";
 
         var gamewin = new Image();
-        gamewin.src = "waltsmile.png";
+        gamewin.src = "Images/waltsmile.png";
 
 
         var aKeyPressed = false;
@@ -82,7 +83,6 @@
             drawImg(background1, 0, 0, canvas.width, canvas.height);
             drawImg(enemy, enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE);
             drawImg(enemy2, enemy2Xpos, enemy2Ypos, ENEMY2_WIDTH, ENEMY2_HEIGHT);
-            // drawImg(enemy3, enemy3Xpos, enemy3Ypos, ENEMY3_SIZE, ENEMY3_SIZE);
             drawSprite(imageAssets.player, playerXsource, playerYsource, PLAYER_WIDTH, PLAYER_HEIGHT, playerXpos,
                 playerYpos, PLAYER_WIDTH, PLAYER_HEIGHT); //draws Player Image
 
@@ -93,7 +93,7 @@
             } else {
                 gameRun = false;
                 drawImg(gameover, 0, 0, canvas.width, canvas.height);
-                colorText('you lose L bozo', canvas.width / 2.5, canvas.height / 7, '100px Arial', color, 09);
+                colorText('You Lose', canvas.width / 2.8, canvas.height / 7, '100px Arial', 'red');
                 colorText(userName, '40px Arial', 'black')//end game text
 
             }
@@ -108,6 +108,12 @@
         function colorRect(x, y, w, h, c) { //function
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
+        }
+
+        function colorText(msg, x, y, f, c) {
+            canvasContext.font = f;
+            canvasContext.fillStyle = c;
+            canvasContext.fillText(msg, x, y);
         }
 
         function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
@@ -213,7 +219,7 @@
         function loadImgAssets() { //function
             imgs = {};
             imgs.player = new Image();
-            imgs.player.src = "kirbywalking5.png"; 
+            imgs.player.src = "Images/kirbywalking5.png"; 
             return imgs;
         }
 
@@ -257,14 +263,17 @@
                     playerYspeed = 0;
                     drawImg(gamewin, 0, 0, canvas.width, canvas.height);
                     enemyYpos = 12;
+                    colorText('You win', canvas.width / 2.8, canvas.height / 7, '100px Arial', 'lime');
+                colorText(userName, '40px Arial', 'black')//end game text
+
                  }
 
         }
-        function makeEnemy() { //enemies and enemy placement
-            var ENEMY_SIZE = 150;
-            var gap = Math.floor(Math.random() * (canvas.height * 0.16)) + canvas.height * 0.16;
-            var enemyYpos = 0
-        }
+            // function makeEnemy() { //enemies and enemy placement
+            //     var ENEMY_SIZE = 150;
+            //     var gap = Math.floor(Math.random() * (canvas.height * 0.16)) + canvas.height * 0.16;
+            //     var enemyYpos = 0
+            // }
      
     </script>
 </body>
