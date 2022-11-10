@@ -69,7 +69,6 @@
         var gameover = new Image();
         gameover.src = "waltfrown.png";
 
-        
         var gamewin = new Image();
         gamewin.src = "waltsmile.png";
 
@@ -174,15 +173,16 @@
 
             if (aKeyPressed) {
                 playerSpriteNum += antiFrameRate;
-                if (playerSpriteNum < 0 || playerSpriteNum > 3) {
-                    playerSpriteNum = 0;
+                if (playerSpriteNum < 16 || playerSpriteNum > 19) {
+                    playerSpriteNum = 16;
                 }
             }
 
             if (dKeyPressed) {
+
                 playerSpriteNum += antiFrameRate;
-                if (playerSpriteNum < 16 || playerSpriteNum > 19) {
-                    playerSpriteNum = 16;
+                if (playerSpriteNum < 0 || playerSpriteNum > 3) {
+                    playerSpriteNum = 0;
                 }
             }
             // if (playerYpos < canvas.height - PLAYER_HEIGHT){
@@ -213,7 +213,7 @@
         function loadImgAssets() { //function
             imgs = {};
             imgs.player = new Image();
-            imgs.player.src = "kirbywalking2.png"; 
+            imgs.player.src = "kirbywalking5.png"; 
             return imgs;
         }
 
@@ -245,16 +245,18 @@
                  )
                {
                     gameRun = false;
-                    playerXpos = 1
                 }
 
                 if (enemy2Xpos < playerXpos + PLAYER_SIZE &&
-                    enemy2Xpos + ENEMY2_SIZE > playerXpos &&
+                    enemy2Xpos + ENEMY2_WIDTH > playerXpos &&
                     enemy2Ypos < playerYpos + PLAYER_SIZE &&
-                    enemy2Ypos + ENEMY2_SIZE > playerYpos
+                    enemy2Ypos + ENEMY2_HEIGHT > playerYpos
                  )
                  {
-                    drawImg (gamewin, 0, 0, canvas.width, canvas.height);
+                    playerXspeed = 0;
+                    playerYspeed = 0;
+                    drawImg(gamewin, 0, 0, canvas.width, canvas.height);
+                    enemyYpos = 12;
                  }
 
         }
