@@ -14,6 +14,39 @@
             setInterval(mainloop, 1000 / 50);
         }
 
+        var userName = '';
+        while (userName == '' || userName == null) {
+            userName = prompt('whats your name?', 'Ryan') //insert name
+        }
+
+        var difficulty = '';
+        var pass = false;
+
+        var eNum = 0;
+
+        while (pass == false) {
+            difficulty = prompt('Choose your difficulty: easy, normal or hard')
+            if (difficulty != null) {
+            difficulty = difficulty.toLowerCase()
+            if (difficulty == 'easy' || difficulty == 'normal' || difficulty == 'hard') { //difficulty settings
+                pass = true;
+                //convert difficulty to lower case 'Easy'
+            }
+            }
+        }
+
+        if (difficulty == 'easy') {
+            enemyXspeed = 10;
+        }
+
+        if (difficulty == 'normal') {
+            enemyXspeed = 15;
+        }
+
+        if (difficulty == 'hard') {
+            enemyXspeed = 20;
+        }
+
         var playerXsource = 0;
         var playerYsource = 0;
         var playerXpos = 150;
@@ -33,46 +66,61 @@
 
         // player spriteSheet variables
         var playerSpriteArray = [];
-        const PLAYER_SPRITES = 8;
+        const PLAYER_SPRITES = 19;
         var playerSpriteNum = 0;
         var playerSpriteSheetCols = 0;
         var antiFrameRate = 0.1;
-        // var enemies = [];
-        // var enemy;
-        var enemyXpos = 1300;
+
+        var enemyXpos = 1200;
         var enemyYpos = 510;
         var ENEMY_SIZE = 150;
-        var enemyXspeed = 10;
         
         var enemy2Xpos = 950;
         var enemy2Ypos = 355;
         var ENEMY2_WIDTH = 500;
         var ENEMY2_HEIGHT = 330;
 
+        var gameRun = true;
+
+
         var background1 = new Image();
-        background1.src = "pixelart3.png";
+        background1.src = "Images/pixelart3.png";
 
         var enemy2 = new Image();
-        enemy2.src = "dedede3.png";
+        enemy2.src = "Images/dedede3.png";
 
         var enemy = new Image();
-        enemy.src = "spiky ball.png";
+        enemy.src = "Images/spiky ball.png";
+
+        var gameover = new Image();
+        gameover.src = "Images/waltfrown.png";
+
+        var gamewin = new Image();
+        gamewin.src = "Images/waltsmile.png";
+
 
         var aKeyPressed = false;
         var dKeyPressed = false;
         var spaceKeyPressed = false;
 
         function mainloop() {
+            if (gameRun){
             drawImg(background1, 0, 0, canvas.width, canvas.height);
             drawImg(enemy, enemyXpos, enemyYpos, ENEMY_SIZE, ENEMY_SIZE);
             drawImg(enemy2, enemy2Xpos, enemy2Ypos, ENEMY2_WIDTH, ENEMY2_HEIGHT);
-            // drawImg(enemy3, enemy3Xpos, enemy3Ypos, ENEMY3_SIZE, ENEMY3_SIZE);
             drawSprite(imageAssets.player, playerXsource, playerYsource, PLAYER_WIDTH, PLAYER_HEIGHT, playerXpos,
                 playerYpos, PLAYER_WIDTH, PLAYER_HEIGHT); //draws Player Image
 
             spriteMove()
             PlayerMove()
             enemyMove()
+
+            } else {
+                gameRun = false;
+                drawImg(gameover, 0, 0, canvas.width, canvas.height);
+                colorText('You Lose', canvas.width / 2.8, canvas.height / 7, '100px Arial', 'red');
+                colorText(userName, '40px Arial', 'black')//end game text
+            }
 
         }
 
@@ -84,6 +132,12 @@
         function colorRect(x, y, w, h, c) { //function
             canvasContext.fillStyle = c;
             canvasContext.fillRect(x, y, w, h);
+        }
+
+        function colorText(msg, x, y, f, c) {
+            canvasContext.font = f;
+            canvasContext.fillStyle = c;
+            canvasContext.fillText(msg, x, y);
         }
 
         function drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
@@ -149,14 +203,15 @@
 
             if (aKeyPressed) {
                 playerSpriteNum += antiFrameRate;
-                if (playerSpriteNum < 0 || playerSpriteNum > 3) {
-                    playerSpriteNum = 0;
+                if (playerSpriteNum < 16 || playerSpriteNum > 19) {
+                    playerSpriteNum = 16;
                 }
             }
 
             if (dKeyPressed) {
+
                 playerSpriteNum += antiFrameRate;
-                if (playerSpriteNum > 3 || playerSpriteNum < -3) {
+                if (playerSpriteNum < 0 || playerSpriteNum > 3) {
                     playerSpriteNum = 0;
                 }
             }
@@ -168,9 +223,9 @@
         for (i = 0; i < PLAYER_SPRITES; i++) {
             playerSpriteArray[i] = new Array(2);
             playerSpriteArray[i][0] = PLAYER_WIDTH * (i % 4);
-            if (i != 0 && i % 3 == 0) {
-                playerSpriteSheetCols++;
-            }
+            // if (i != 0 && i % 3 == 0) {
+            //     playerSpriteSheetCols++;
+            // }
             playerSpriteArray[i][1] = PLAYER_HEIGHT * playerSpriteSheetCols;
             console.log(playerSpriteArray[i]);
         }
@@ -188,11 +243,10 @@
         function loadImgAssets() { //function
             imgs = {};
             imgs.player = new Image();
-            imgs.player.src = "kirbywalking2.png";
+            imgs.player.src = "Images/kirbywalking5.png"; 
             return imgs;
         }
 
-        
         function enemyMove(){
           
             enemyXpos -= enemyXspeed;
@@ -201,20 +255,6 @@
            if (enemyXpos < canvas.width * -0.1) {
             enemyXpos = canvas.width * 0.8;
            }
-
-        //    if (enemyXpos < playerXpos + PLAYER_SIZE &&
-        //    enemyXpos + ENEMY_SIZE > playerXpos &&
-        //    enemyYpos < playerYpos + PLAYER_SIZE &&
-        //    enemyYpos + ENEMY_SIZE > playerYpos) {
-            
-        //    }
-        //    if (enemy2Xpos < playerXpos + PLAYER_SIZE &&
-        //    enemy2Xpos + ENEMY2_WIDTH > playerXpos &&
-        //    enemy2Ypos < playerYpos + PLAYER_SIZE &&
-        //    enemy2Ypos + ENEMY2_HEIGHT > playerYpos) {
-        //     enemy2Xpos = playerXpos
-        //    }
-
 
             // enemies.forEach(function(e, i, array) {
             //     e.enemyXpos -= e.enemyXspeed;
@@ -228,61 +268,36 @@
     
             //     }
 
-            //     if (e.enemyXpos < playerXpos + PLAYER_SIZE &&
-            //         e.enemyXpos + e.ENEMY_SIZE > playerXpos &&
-            //         e.enemyYpos < playerYpos + PLAYER_SIZE &&
-            //         e.enemyYpos + e.ENEMY_SIZE > playerYpos //when player hits enemy
-            //     ) {
-            //         console.log('hit')
-            //         gameRun = false;
-            //     }
-            // })
-           
-            // else (enemyXpos < canvas.width * 0.00000009) {
-            // enemyXpos += enemyXspeed
-            // }
+                if (enemyXpos < playerXpos + PLAYER_SIZE &&
+                    enemyXpos + ENEMY_SIZE > playerXpos &&
+                    enemyYpos < playerYpos + PLAYER_SIZE &&
+                    enemyYpos + ENEMY_SIZE > playerYpos //when player hits enemy
+                 )
+               {
+                    gameRun = false;
+                }
 
-    
+                if (enemy2Xpos < playerXpos + PLAYER_SIZE &&
+                    enemy2Xpos + ENEMY2_WIDTH > playerXpos &&
+                    enemy2Ypos < playerYpos + PLAYER_SIZE &&
+                    enemy2Ypos + ENEMY2_HEIGHT > playerYpos
+                 )
+                 {
+                    playerXspeed = 0;
+                    playerYspeed = 0;
+                    drawImg(gamewin, 0, 0, canvas.width, canvas.height);
+                    enemyYpos = 12;
+                    colorText('You win', canvas.width / 2.8, canvas.height / 7, '100px Arial', 'lime');
+                colorText(userName, '40px Arial', 'black')//end game text
+
+                 }
+
         }
-        function makeEnemy() { //enemies and enemy placement
-            var ENEMY_SIZE = 150;
-            var gap = Math.floor(Math.random() * (canvas.height * 0.16)) + canvas.height * 0.16;
-            var enemyYpos = 0
-        }
-
-            // if (enemyCounter % 2 == 0) {
-            //     enemyYpos = canvas.height / 2 - gap;
-            // } else {
-            //     enemyYpos = canvas.height / 2 + gap;
-            //     setCount++;
+            // function makeEnemy() { //enemies and enemy placement
+            //     var ENEMY_SIZE = 150;
+            //     var gap = Math.floor(Math.random() * (canvas.height * 0.16)) + canvas.height * 0.16;
+            //     var enemyYpos = 0
             // }
-
-            // var enemyXpos = canvas.width + setCount * (ENEMY_SIZE * 2);
-            // var eXspeed = 8;
-            // var eYspeed = 5;
-
-            // enemyCounter++;
-
-            //enemy vars
-            // var enemy = {
-            //     enemyXpos: enemyXpos,
-            //     enemyYpos: enemyYpos,
-            //     ENEMY_SIZE: ENEMY_SIZE,
-            //     enemyXspeed: eXspeed,
-            //     enemyYspeed: eYspeed
-
-            // }
-            // enemies.push(enemy);
-
-         //end func\
-
-        function drawEnemy() { //draw enemy
-            enemies.forEach(function(e, i, array) {
-                drawImg(enemy1, e.enemyXpos, e.enemyYpos, e.ENEMY_SIZE, e.ENEMY_SIZE);
-            })
-        } //end func
-                                
      
-
     </script>
 </body>
