@@ -19,6 +19,34 @@
             userName = prompt('whats your name?', 'Ryan') //insert name
         }
 
+        var difficulty = '';
+        var pass = false;
+
+        var eNum = 0;
+
+        while (pass == false) {
+            difficulty = prompt('Choose your difficulty: easy, normal or hard')
+            if (difficulty != null) {
+            difficulty = difficulty.toLowerCase()
+            if (difficulty == 'easy' || difficulty == 'normal' || difficulty == 'hard') { //difficulty settings
+                pass = true;
+                //convert difficulty to lower case 'Easy'
+            }
+            }
+        }
+
+        if (difficulty == 'easy') {
+            enemyXspeed = 10;
+        }
+
+        if (difficulty == 'normal') {
+            enemyXspeed = 15;
+        }
+
+        if (difficulty == 'hard') {
+            enemyXspeed = 20;
+        }
+
         var playerXsource = 0;
         var playerYsource = 0;
         var playerXpos = 150;
@@ -45,10 +73,7 @@
 
         var enemyXpos = 1200;
         var enemyYpos = 510;
-        var ENEMY_SIZE = 250;
-        var ENEMY_WIDTH = 10;
-        var ENEMY_HEIGHT = 10;
-        var enemyXspeed = 10 ;
+        var ENEMY_SIZE = 150;
         
         var enemy2Xpos = 950;
         var enemy2Ypos = 355;
@@ -95,7 +120,6 @@
                 drawImg(gameover, 0, 0, canvas.width, canvas.height);
                 colorText('You Lose', canvas.width / 2.8, canvas.height / 7, '100px Arial', 'red');
                 colorText(userName, '40px Arial', 'black')//end game text
-
             }
 
         }
